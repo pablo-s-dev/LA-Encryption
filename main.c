@@ -1,21 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define HELLO_WORLD_EXE "modules\\Hello-world\\bin\\debug\\HelloWorld.exe"
+#define HELLO_WORLD_EXE "modules\\HelloWorld\\bin\\debug\\HelloWorld.exe"
 #define CODER_EXE ".\\modules\\Coder\\bin\\debug\\Coder.exe"
 #define DECODER_EXE ".\\modules\\Decoder\\bin\\debug\\Decoder.exe"
 #define CONFIGURER_EXE ".\\modules\\Coder-configurer\\bin\\Debug\\Coder-configurer.exe"
 
 
-#define CODED_DIR ".\\coded"
-#define DECODED_DIR ".\\decoded"
-#define CONFIG_DIR ".\\config"
+#define CODED_DIR "./coded"
+#define DECODED_DIR "./decoded"
+#define CONFIG_DIR "./config"
 
 
 int main()
 {
 
     char command[100];
+
     int option;
 
     while(option != 5){

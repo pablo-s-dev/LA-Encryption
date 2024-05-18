@@ -3,9 +3,9 @@
 #include <string.h>
 #include <math.h>
 
-#define CODER_FILENAME "coder.honovan"
-#define DECODER_FILENAME "decoder.honovan"
-#define MAPPINGS_FILENAME "mappings.honovan"
+#define CODER_FILENAME "coder.encdata"
+#define DECODER_FILENAME "decoder.encdata"
+#define MAPPINGS_FILENAME "mappings.encdata"
 #define ASCII_LOWER_A 97
 #define ASCII_LOWER_Z 122
 #define DOT_POS 26
@@ -61,7 +61,7 @@ void* load_matrix(char* dir, char* filename){
 
     int** matrix;
     void** data = malloc(sizeof(int*) * 2);
-    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 1);
+    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 2);
     FILE* f;
     int n, num_amount;
     int i;
@@ -84,8 +84,8 @@ void* load_matrix(char* dir, char* filename){
     f = fopen(file_path, "rb");
 
     if (f == NULL) {
-        printf("\nError opening file!\n");
-        printf("Maybe you are using '\' instead of '/'?");
+        printf("\nError opening file %s!\n", file_path);
+        printf("Maybe you are using '\\' instead of '/'?");
         return NULL;
     }
 
@@ -131,7 +131,7 @@ void* load_matrix(char* dir, char* filename){
 int* load_arr(char* dir, char* filename){
 
     int* arr;
-    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 1);
+    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 2);
 
     if (file_path == NULL) {
         printf("Memory allocation failed!\n");
@@ -151,7 +151,7 @@ int* load_arr(char* dir, char* filename){
     f = fopen(file_path, "rb");
 
     if (f == NULL) {
-        printf("\nError opening file!\n");
+        printf("\nError opening file %s!\n", file_path);
         return NULL;
     }
 
@@ -186,7 +186,7 @@ void* txt_to_num_matrix(char* plain_text_path, int* mapping_arr, int rows){
 
 
     if (f == NULL) {
-        printf("\nError opening file!\n");
+        printf("\nError opening file %s!\n", plain_text_path);
         return NULL;
     }
 
@@ -217,6 +217,10 @@ void* txt_to_num_matrix(char* plain_text_path, int* mapping_arr, int rows){
     rewind(f);
 
     cols = ceil( (float) ch_amount / rows);
+
+    printf("Char amount: %d", ch_amount);
+
+    printf("Cols: %d", cols);
 
     padding = cols * rows - ch_amount;
 
@@ -255,6 +259,7 @@ void* txt_to_num_matrix(char* plain_text_path, int* mapping_arr, int rows){
 
             if(row_text[j] >= ASCII_LOWER_A && row_text[j] <= ASCII_LOWER_Z){
                 num = mapping_arr[row_text[j] - ASCII_LOWER_A ];
+
             }
             else{
                 switch (row_text[j]){
@@ -274,6 +279,7 @@ void* txt_to_num_matrix(char* plain_text_path, int* mapping_arr, int rows){
                 }
 
             }
+            printf("\nChar[%c] maps to: %d\n", row_text[j],  num);
 
             num_matrix[i][j] = num;
 
@@ -306,7 +312,7 @@ int matrix_to_txt(int** matrix, int* shape, char* dir, char* filename){
     int i, j;
 
     // +1 for the \0 string terminator
-    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 1);
+    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 2);
 
     if(file_path == NULL){
         printf("\nMemory allocation failed!\n");
@@ -324,16 +330,17 @@ int matrix_to_txt(int** matrix, int* shape, char* dir, char* filename){
     FILE* f = fopen(file_path, "w");
 
     if (f == NULL) {
-        printf("Error opening file!\n");
+        printf("Error opening file %s!\n", file_path);
         return -1;
     }
 
-
+    printf("\n");
     for(i = 0; i < shape[0]; i++){
 
         for(j = 0; j < shape[1]; j++){
             // Storing a line
-            if (fprintf(f, "%d", matrix[i][j]) > 0) {
+            if (fprintf(f, "%d ", matrix[i][j]) > 0) {
+                printf("%d ", matrix[i][j]);
                 numbers_written++;
             }
         }
@@ -362,6 +369,11 @@ int** mat_mul(int** A, int**B, int* A_shape, int* B_shape){
         return NULL;
     }
 
+    if(A_shape[1] != B_shape[0]){
+        printf("\nCan't multiply these matrices!\n");
+        return NULL;
+    }
+
     for ( i = 0; i < A_shape[0]; i++) {
         result[i] = (int*) malloc(sizeof(int) * B_shape[1]);
 
@@ -374,6 +386,8 @@ int** mat_mul(int** A, int**B, int* A_shape, int* B_shape){
 
             // dot product between two vectors
             for ( k = 0; k < B_shape[0]; k++) {
+                printf("\nA[%d][%d]: %d",i, k, A[i][k]);
+                printf("\nB[%d][%d]: %d", k, j, B[k][j]);
                 result[i][j] += A[i][k] * B[k][j];
             }
 

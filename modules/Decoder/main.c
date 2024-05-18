@@ -1,8 +1,457 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <math.h>
 
-int main()
+#define CODER_FILENAME "coder.encdata"
+#define DECODER_FILENAME "decoder.encdata"
+#define MAPPINGS_FILENAME "mappings.encdata"
+#define ASCII_LOWER_A 97
+#define ASCII_LOWER_Z 122
+#define DOT_POS 26
+#define COMMA_POS 27
+#define SPACE_POS 28
+
+
+#include <errno.h>
+#ifdef _WIN32
+    #include <direct.h>
+    #define makedir(dir) _mkdir(dir)
+#else
+    #include <sys/stat.h>
+    #include <sys/types.h>
+    #define makedir(dir) mkdir(dir, 0700)
+#endif
+
+
+char* read_line() {
+    int bufsize = 128;
+    int position = 0;
+    char *buffer = malloc(sizeof(char) * bufsize);
+    int c;
+
+    if (!buffer) {
+        fprintf(stderr, "read_line: allocation error\n");
+        exit(EXIT_FAILURE);
+    }
+
+    while (1) {
+        c = getchar();
+
+        if (c == EOF || c == '\n') {
+            buffer[position] = '\0';
+            return buffer;
+        } else {
+            buffer[position] = c;
+        }
+        position++;
+
+        if (position >= bufsize) {
+            bufsize += 128;
+            buffer = realloc(buffer, bufsize);
+            if (!buffer) {
+                fprintf(stderr, "read_line: allocation error\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+}
+
+void* load_matrix(char* dir, char* filename){
+
+    int** matrix;
+    void** data = malloc(sizeof(int*) * 2);
+    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 2);
+    FILE* f;
+    int n, num_amount;
+    int i;
+    int* matrix_shape = (int*) malloc(sizeof(int) * 2);
+
+    if(matrix_shape == NULL || data == NULL || file_path == NULL){
+        printf("\nMemory allocation failed!\n");
+        return NULL;
+    }
+
+
+    strcpy(file_path, dir);
+
+    strcat(file_path, "/");
+
+    strcat(file_path, filename);
+
+    printf("\nMatrix path %s", file_path);
+
+    f = fopen(file_path, "rb");
+
+    if (f == NULL) {
+        printf("\nError opening file %s!\n", file_path);
+        printf("Maybe you are using '\\' instead of '/'?");
+        return NULL;
+    }
+
+    fseek(f, 0, SEEK_END);
+
+    num_amount = ftell(f) / sizeof(int);
+    rewind(f);
+
+    n = sqrt(num_amount);
+
+    matrix = (int**) malloc(sizeof(int*) * n);
+
+    if(matrix == NULL){
+        printf("\nMemory allocation failed!\n");
+        return NULL;
+    }
+
+
+    for(i=0; i<n; i++){
+        matrix[i] = (int*) malloc(sizeof(int) * n);
+
+        if(matrix[i]  == NULL){
+            printf("\nMemory allocation failed!\n");
+            return NULL;
+        }
+
+        fread(matrix[i], sizeof(int), n, f);
+    }
+
+    free(file_path);
+
+    matrix_shape[0] = n;
+    matrix_shape[1] = n;
+
+    data[0] = (void*) matrix;
+    data[1] = (void*) matrix_shape;
+
+
+    return data;
+
+}
+
+void** load_arr(char* dir, char* filename){
+
+    int* arr;
+    void** data = (void**) malloc( sizeof(void*) * 2 );
+    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 2);
+    int* num_amount_ptr = (int*) malloc(sizeof(int));
+    if (file_path == NULL || data == NULL) {
+        printf("Memory allocation failed!\n");
+        return NULL;
+    }
+
+    FILE* f;
+    long num_amount;
+
+    strcpy(file_path, dir);
+
+    strcat(file_path, "/");
+
+    strcat(file_path, filename);
+
+
+    f = fopen(file_path, "rb");
+
+    if (f == NULL) {
+        printf("\nError opening file %s!\n", file_path);
+        return NULL;
+    }
+
+    fseek(f, 0, SEEK_END);
+
+    num_amount = ftell(f) / sizeof(int);
+    rewind(f);
+
+
+    arr = (int*) malloc(sizeof(int) * num_amount);
+
+    if(arr == NULL){
+        printf("\nMemory allocation failed!\n");
+        return NULL;
+    }
+
+    fread(arr, sizeof(int), num_amount, f);
+
+    fclose(f);
+
+    free(file_path);
+
+    num_amount_ptr[0] = num_amount;
+
+    data[0] = (void*) arr;
+    data[1] = (void*) num_amount_ptr;
+
+    return data;
+
+}
+
+char* matrix_msg_to_str(int** matrix, int* shape, int* mapping_arr, int mapping_size){
+
+    int i, j, k ;
+    char* text = (char*) malloc(shape[0] * shape[1] + 1);
+
+    if(text == NULL){
+        printf("\nMemory allocation failed!\n");
+        return NULL;
+    }
+
+    for(i=0; i<shape[0]; i++){
+        for(j=0; j<shape[1]; j++){
+            for(k=0; k<mapping_size; k++){
+                if(matrix[i][j] == mapping_arr[k]){
+
+                    if(k+ASCII_LOWER_A<=ASCII_LOWER_Z){
+                        printf("\nAscii code: %d", k + ASCII_LOWER_A);
+                        printf("\nLetter: %c", k + ASCII_LOWER_A);
+                        printf("Index: %d", i* shape[1] + j);
+                        text[i* shape[1] + j] = (char) k + ASCII_LOWER_A;
+                    }
+                    else{
+                        switch(k){
+                            case DOT_POS:
+                                text[i* shape[1] + j] = '.';
+                                break;
+                            case COMMA_POS:
+                                text[i* shape[1] + j] = ',';
+                                break;
+                            case SPACE_POS:
+                                text[i* shape[1] + j] = ' ';
+                                break;
+                            default:
+                                text[i* shape[1] + j] = '?';
+                                break;
+                    }
+
+                    }
+
+
+
+                }
+            }
+        }
+    }
+    text[shape[0] * shape[1]] = '\0';
+
+    return text;
+}
+
+void** load_matrix_from_txt(char* file_path, int rows){
+    FILE* f;
+    int** matrix = (int**) malloc(sizeof(int*) * rows);
+    int cols;
+    void** data = (void**) malloc(sizeof(void*) * 2);
+    int* shape = (int*) malloc(sizeof(int) * 2);
+    int i, j;
+    int num = 0;
+    int amount = 0;
+
+    if (matrix == NULL || data == NULL) {
+        printf("\nMemory allocation failed!\n");
+        return NULL;
+    }
+
+    f = fopen(file_path, "r");
+
+    if (f == NULL) {
+        printf("\nError opening file %s!\n", file_path);
+        return NULL;
+    }
+
+
+
+    while(!feof(f)){
+        if(!fscanf(f, "%d ", &num)){
+            break;
+        }
+        amount++;
+    }
+
+    rewind(f);
+
+    printf("\nAmount of numbers: %d", amount);
+
+    cols = amount  / rows;
+
+    printf("Matrix from %s: \n", file_path);
+
+    for(i = 0; i < rows; i++){
+        matrix[i] = (int*) malloc(sizeof(int) * cols);
+
+        if(matrix[i] == NULL){
+            printf("\nMemory allocation failed!\n");
+            return NULL;
+        }
+
+        for(j = 0; j < cols; j++){
+            if(!fscanf(f, "%d ", &matrix[i][j])){
+                break;
+            }
+
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+
+    }
+
+    fclose(f);
+
+    shape[0] = rows;
+    shape[1] = cols;
+
+    data[0] = (void**) matrix;
+    data[1] = (void*) shape;
+
+    return data;
+
+}
+
+int** mat_mul(int** A, int**B, int* A_shape, int* B_shape){
+
+    int i, j, k;
+
+    int** result = (int**) malloc(sizeof(int*) * A_shape[0]);
+
+    if(result == NULL){
+        printf("\nMemory allocation failed!\n");
+        return NULL;
+    }
+
+    for ( i = 0; i < A_shape[0]; i++) {
+        result[i] = (int*) malloc(sizeof(int) * B_shape[1]);
+
+        if(result[i] == NULL){
+            printf("\nMemory allocation failed!\n");
+            return NULL;
+        }
+        for ( j = 0; j < B_shape[1]; j++) {
+            result[i][j] = 0;
+
+            // dot product between two vectors
+            for ( k = 0; k < B_shape[0]; k++) {
+                result[i][j] += A[i][k] * B[k][j];
+            }
+
+        }
+
+    }
+
+    return result;
+
+}
+
+void free_matrix(int** matrix, int rows) {
+    for(int i = 0; i < rows; i++) {
+        free(matrix[i]);
+    }
+    free(matrix);
+}
+
+int decode_file(char* coded_msg_path, char* output_dir, char* config_dir, char* decoded_filename){
+
+    int** decoder_matrix;
+    int* mapping_arr;
+    int** msg_matrix;
+    int* msg_matrix_shape;
+    int** decoded_msg_matrix;
+    void** data;
+    int* decoder_matrix_shape;
+    int saved = 0;
+    char* output_path;
+    int mapping_size;
+    char* decoded_msg;
+    int decoded_msg_matrix_shape[2];
+    int i, j;
+
+    output_path = (char*) malloc(strlen(output_dir) + strlen(decoded_filename) + 2);
+
+    data = load_matrix(config_dir, DECODER_FILENAME);
+    decoder_matrix = (int**) ( data  [0]);
+    decoder_matrix_shape = (int*) (data [1]);
+
+    data = load_matrix_from_txt(coded_msg_path, decoder_matrix_shape[1]);
+
+    msg_matrix = (int**) ( data  [0]);
+    msg_matrix_shape = (int*) (data [1]);
+
+    data = load_arr(config_dir, MAPPINGS_FILENAME);
+
+    mapping_arr = (int*) data[0];
+    mapping_size = ((int*) data[1])[0];
+
+    decoded_msg_matrix = mat_mul(decoder_matrix, msg_matrix, decoder_matrix_shape, msg_matrix_shape);
+    decoded_msg_matrix_shape[0] = decoder_matrix_shape[0];
+    decoded_msg_matrix_shape[1] = msg_matrix_shape[1];
+    decoded_msg = matrix_msg_to_str(decoded_msg_matrix, decoded_msg_matrix_shape, mapping_arr, mapping_size);
+
+    printf("\nDecoded Matrix: \n");
+
+    for(i=0; i<decoded_msg_matrix_shape[0]; i++){
+        printf("\n");
+        for(j=0; j<decoded_msg_matrix_shape[1]; j++){
+            printf("%d ", decoded_msg_matrix[i][j]);
+        }
+    }
+
+    printf("\nDecoded msg: \n\n");
+    puts(decoded_msg);
+
+    strcpy(output_path, output_dir);
+    strcat(output_path, "/");
+    strcat(output_path, decoded_filename);
+
+    FILE* f;
+
+    f = fopen(output_path , "w");
+
+    saved = fputs(decoded_msg, f);
+
+    if(saved == -1 ){
+        printf("\nThere was an error when saving the decoded file in %s", output_path);
+    }
+
+    free(output_path);
+    free_matrix(decoder_matrix, decoder_matrix_shape[0]);
+    free_matrix(msg_matrix, msg_matrix_shape[0]);
+    free_matrix(decoded_msg_matrix, decoded_msg_matrix_shape[0]);
+    free(mapping_arr);
+    free(decoded_msg);
+
+
+    return saved;
+}
+
+int main(int argc, char* argv[])
 {
-    printf("Hello world!\n");
-    return 0;
+    int decoded = 0;
+    char* config_dir;
+    char* coded_text_path;
+    char* decoded_filename;
+    char* output_dir = "./outputs";
+
+    if(argc > 2){
+        config_dir = argv[1];
+        output_dir = argv[2];
+    }
+    else{
+        printf("Please provide the path (using forward slashes)\nto the config directory with the files needed for the encryption: ");
+        config_dir = read_line();
+    }
+
+    printf("Path to text file to be decoded: ");
+    coded_text_path = read_line();
+
+    fflush(stdin);
+    printf("Name(without file extension) you want\nfor the decoded file: ");
+    decoded_filename = read_line();
+    strcat(decoded_filename, ".txt");
+
+    decoded = decode_file(coded_text_path, output_dir, config_dir, decoded_filename);
+
+    if(decoded != -1){
+        printf("\nThe file was decoded with success.\n\n");
+        return 0;
+    }
+
+    printf("\nAn error occurred, please try again.");
+
+    return -1;
 }

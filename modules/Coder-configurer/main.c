@@ -16,9 +16,9 @@
 #define CONFIG_DIR "./config"
 #define MAPPING_SIZE 29
 
-#define CODER_FILENAME "coder.honovan"
-#define DECODER_FILENAME "decoder.honovan"
-#define MAPPINGS_FILENAME "mappings.honovan"
+#define CODER_FILENAME "coder.encdata"
+#define DECODER_FILENAME "decoder.encdata"
+#define MAPPINGS_FILENAME "mappings.encdata"
 
 
 int save_array(int* arr, int n, char* dir, char* filename){
@@ -33,7 +33,7 @@ int save_array(int* arr, int n, char* dir, char* filename){
     int blocks_written = 0;
 
     // +1 for the \n string terminator
-    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 1);
+    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 2);
 
     strcpy(file_path, dir);
 
@@ -75,10 +75,12 @@ int save_square_matrix(int** matrix, int n, char* dir, char* filename){
     int blocks_written = 0;
     int i;
 
-    // +1 for the \0 string terminator
-    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 1);
+    char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 2);
 
-    if(file_path )
+    if(file_path == NULL ){
+        printf("\nMemory allocation failed!\n");
+        return -1;
+    }
 
     strcpy(file_path, dir);
 
@@ -136,6 +138,11 @@ int main(int argc, char* argv[]){
     printf("\n");
 
     coder_matrix = (int**) malloc(n * sizeof(int*));
+
+    if (coder_matrix == NULL) {
+        printf("Memory allocation failed for coder_matrix!\n");
+        return -1;
+    }
 
     for(i=0; i<n; i++){
 
