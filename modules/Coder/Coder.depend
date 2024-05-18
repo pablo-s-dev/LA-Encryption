@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1715994968 source:d:\computer science\projects\all\la-encryption\la-encoder-project\modules\coder\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<errno.h>
+	<direct.h>
+	<sys/stat.h>
+	<sys/types.h>
+

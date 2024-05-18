@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1715869101 source:c:\users\ufvjm\documents\monitoria\la-encoder-project\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1715998624 source:d:\computer science\projects\all\la-encryption\la-encoder-project\main.c
+	<stdio.h>
+	<stdlib.h>
+
