@@ -1,0 +1,210 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "modules/Coder",
+					"jsonFile" : "directory-modules.Coder-Debug-b5cc5070c4f0ad124b85.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "modules/Coder",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "modules/Decoder",
+					"jsonFile" : "directory-modules.Decoder-Debug-96869e62b0d25bf40549.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "modules/Decoder",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "modules/Coder-configurer",
+					"jsonFile" : "directory-modules.Coder-configurer-Debug-393fcf03b8ee92da4fcd.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "modules/Coder-configurer",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "modules/HelloWorld",
+					"jsonFile" : "directory-modules.HelloWorld-Debug-a490924725f95de85f9b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 4,
+					"source" : "modules/HelloWorld",
+					"targetIndexes" : 
+					[
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "La-encryption",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "Coder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "Decoder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "Coder-configurer",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "HelloWorld",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "Coder::@f9f71520d215702fc50a",
+					"jsonFile" : "target-Coder-Debug-2f3a55ecaed36c879441.json",
+					"name" : "Coder",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "Coder-configurer::@61bd9f460771d2d62c03",
+					"jsonFile" : "target-Coder-configurer-Debug-e9059bdaff50f1cb62bb.json",
+					"name" : "Coder-configurer",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "Decoder::@05cb9cec9aac60a73d63",
+					"jsonFile" : "target-Decoder-Debug-0d279921598867e7454b.json",
+					"name" : "Decoder",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "HelloWorld::@3e288449cc9c87787acb",
+					"jsonFile" : "target-HelloWorld-Debug-1081695ec8bd0863d6a2.json",
+					"name" : "HelloWorld",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "La-encryption::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-La-encryption-Debug-5b7f3db811b96d0771ee.json",
+					"name" : "La-encryption",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/out/build/x64-Debug",
+		"source" : "D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

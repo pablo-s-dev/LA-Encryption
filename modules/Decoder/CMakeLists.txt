@@ -7,4 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 file(GLOB SOURCES "*.c")
 add_executable(Decoder ${SOURCES})
 
-target_link_libraries(Decoder m)
+if(UNIX AND NOT APPLE)
+    target_link_libraries(Decoder m)
+endif()

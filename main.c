@@ -2,10 +2,10 @@
 #include <stdlib.h>
 
 #ifdef _WIN32
-    #define HELLO_WORLD_EXE ".\\modules\\HelloWorld\\HelloWorld.exe"
-    #define CODER_EXE ".\\modules\\Coder\\Coder.exe"
-    #define DECODER_EXE ".\\modules\\Decoder\\Decoder.exe"
-    #define CONFIGURER_EXE ".\\modules\\Coder-configurer\\Coder-configurer.exe"
+    #define HELLO_WORLD_EXE "..\\modules\\HelloWorld\\Debug\\HelloWorld.exe"
+    #define CODER_EXE "..\\modules\\Coder\\Debug\\Coder.exe"
+    #define DECODER_EXE "..\\modules\\Decoder\\Debug\\Decoder.exe"
+    #define CONFIGURER_EXE "..\\modules\\Coder-configurer\\Debug\\Coder-configurer.exe"
     #define CLEAR_COMMAND "cls"
 #else
     #define HELLO_WORLD_EXE "./modules/HelloWorld/HelloWorld"
@@ -15,10 +15,18 @@
     #define CLEAR_COMMAND "clear"
 #endif
 
+#ifdef _WIN32
+    #define CODED_DIR "..\\..\\coded"
+    #define DECODED_DIR "..\\..\\decoded"
+    #define CONFIG_DIR "..\\..\\config"
 
-#define CODED_DIR "../coded"
-#define DECODED_DIR "../decoded"
-#define CONFIG_DIR "../config"
+#else
+    #define CODED_DIR "../coded"
+    #define DECODED_DIR "../decoded"
+    #define CONFIG_DIR "../config"
+
+#endif
+
 
 
 int main()
@@ -26,7 +34,7 @@ int main()
 
     char command[100];
 
-    int option;
+    int option = -1;
 
     while(option != 5){
 
@@ -65,6 +73,9 @@ int main()
                 break;
             case 4:
                 system(HELLO_WORLD_EXE);
+                break;
+            case 5:
+                printf("\n\nGood bye!");
                 break;
             default:
                 printf("Invalid option!");

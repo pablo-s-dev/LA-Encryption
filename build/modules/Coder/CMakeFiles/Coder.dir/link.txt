@@ -1,1 +1,0 @@
-/usr/bin/cc    CMakeFiles/Coder.dir/main.c.o  -o Coder  -lm 

@@ -1,15 +1,11 @@
-/workspaces/LA-Encryption/build/CMakeFiles/rebuild_cache.dir
-/workspaces/LA-Encryption/build/CMakeFiles/edit_cache.dir
-/workspaces/LA-Encryption/build/CMakeFiles/La-encryption.dir
-/workspaces/LA-Encryption/build/modules/Coder/CMakeFiles/rebuild_cache.dir
-/workspaces/LA-Encryption/build/modules/Coder/CMakeFiles/edit_cache.dir
-/workspaces/LA-Encryption/build/modules/Coder/CMakeFiles/Coder.dir
-/workspaces/LA-Encryption/build/modules/Decoder/CMakeFiles/rebuild_cache.dir
-/workspaces/LA-Encryption/build/modules/Decoder/CMakeFiles/edit_cache.dir
-/workspaces/LA-Encryption/build/modules/Decoder/CMakeFiles/Decoder.dir
-/workspaces/LA-Encryption/build/modules/Coder-configurer/CMakeFiles/rebuild_cache.dir
-/workspaces/LA-Encryption/build/modules/Coder-configurer/CMakeFiles/edit_cache.dir
-/workspaces/LA-Encryption/build/modules/Coder-configurer/CMakeFiles/Coder-configurer.dir
-/workspaces/LA-Encryption/build/modules/HelloWorld/CMakeFiles/edit_cache.dir
-/workspaces/LA-Encryption/build/modules/HelloWorld/CMakeFiles/rebuild_cache.dir
-/workspaces/LA-Encryption/build/modules/HelloWorld/CMakeFiles/HelloWorld.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/CMakeFiles/La-encryption.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/CMakeFiles/ALL_BUILD.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/CMakeFiles/ZERO_CHECK.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/modules/Coder/CMakeFiles/Coder.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/modules/Coder/CMakeFiles/ALL_BUILD.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/modules/Decoder/CMakeFiles/Decoder.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/modules/Decoder/CMakeFiles/ALL_BUILD.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/modules/Coder-configurer/CMakeFiles/Coder-configurer.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/modules/Coder-configurer/CMakeFiles/ALL_BUILD.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/modules/HelloWorld/CMakeFiles/HelloWorld.dir
+D:/Computer Science/Projects/All/LA-encryption/LA-encoder-project/build/modules/HelloWorld/CMakeFiles/ALL_BUILD.dir

@@ -7,4 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 file(GLOB SOURCES "*.c")
 add_executable(Coder ${SOURCES})
 
-target_link_libraries(Coder m)
+if(UNIX AND NOT APPLE)
+    target_link_libraries(Coder m)
+endif()
