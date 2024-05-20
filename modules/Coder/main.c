@@ -25,7 +25,7 @@
 
 
 char* read_line() {
-    int bufsize = 128;
+    long unsigned bufsize = 1024;
     int position = 0;
     char *buffer = malloc(sizeof(char) * bufsize);
     int c;
@@ -42,12 +42,12 @@ char* read_line() {
             buffer[position] = '\0';
             return buffer;
         } else {
-            buffer[position] = c;
+            buffer[position] = (char) c;
         }
         position++;
 
         if (position >= bufsize) {
-            bufsize += 128;
+            bufsize += 1024;
             buffer = realloc(buffer, bufsize);
             if (!buffer) {
                 fprintf(stderr, "read_line: allocation error\n");
@@ -63,7 +63,8 @@ void* load_matrix(char* dir, char* filename){
     void** data = malloc(sizeof(int*) * 2);
     char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 2);
     FILE* f;
-    int n, num_amount;
+    long unsigned int n;
+    long unsigned int num_amount;
     int i;
     int* matrix_shape = (int*) malloc(sizeof(int) * 2);
 
@@ -94,7 +95,7 @@ void* load_matrix(char* dir, char* filename){
     num_amount = ftell(f) / sizeof(int);
     rewind(f);
 
-    n = sqrt(num_amount);
+    n = (int) sqrt(num_amount);
 
     matrix = (int**) malloc(sizeof(int*) * n);
 
@@ -178,6 +179,17 @@ int* load_arr(char* dir, char* filename){
 
 }
 
+char* strlwr(char* str) {
+    char* orig = str;
+    while (*str != '\0') {
+        if(*str >= 'A' && *str <= 'Z')
+            *str = *str + ('a' - 'A');
+        str++;
+    }
+    return orig;
+}
+
+
 void* txt_to_num_matrix(char* plain_text_path, int* mapping_arr, int rows){
 
 
@@ -216,7 +228,7 @@ void* txt_to_num_matrix(char* plain_text_path, int* mapping_arr, int rows){
     ch_amount = file_size / sizeof(char);
     rewind(f);
 
-    cols = ceil( (float) ch_amount / rows);
+    cols = (int) ceil( (float) ch_amount / rows);
 
     printf("Char amount: %d", ch_amount);
 
@@ -244,7 +256,7 @@ void* txt_to_num_matrix(char* plain_text_path, int* mapping_arr, int rows){
             return NULL;
         }
 
-        strlwr(row_text);
+        row_text = strlwr(row_text);
 
         if(chars_read < cols){
             for(j=0; j<padding; j++){
@@ -311,7 +323,6 @@ int matrix_to_txt(int** matrix, int* shape, char* dir, char* filename){
     int numbers_written = 0;
     int i, j;
 
-    // +1 for the \0 string terminator
     char* file_path = (char* ) malloc(strlen(dir) + strlen(filename) + 2);
 
     if(file_path == NULL){
@@ -479,7 +490,7 @@ int main(int argc, char* argv[])
     encrypted = encrypt_file(plain_text_path, output_dir, config_dir, enc_filename);
 
     if(encrypted != -1){
-        printf("\nThe file was encrypted with success.\n\n");
+        printf("\nThe file was encrypted with success in %s.\n\n", output_dir);
         return 0;
     }
 
