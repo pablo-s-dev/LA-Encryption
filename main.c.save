@@ -1,10 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define HELLO_WORLD_EXE "modules\\HelloWorld\\bin\\debug\\HelloWorld.exe"
-#define CODER_EXE ".\\modules\\Coder\\bin\\debug\\Coder.exe"
-#define DECODER_EXE ".\\modules\\Decoder\\bin\\debug\\Decoder.exe"
-#define CONFIGURER_EXE ".\\modules\\Coder-configurer\\bin\\Debug\\Coder-configurer.exe"
+#ifdef _WIN32
+    #define HELLO_WORLD_EXE ".\\modules\\HelloWorld\\bin\\debug\\HelloWorld.exe"
+    #define CODER_EXE ".\\modules\\Coder\\bin\\debug\\Coder.exe"
+    #define DECODER_EXE ".\\modules\\Decoder\\bin\\debug\\Decoder.exe"
+    #define CONFIGURER_EXE ".\\modules\\Coder-configurer\\bin\\Debug\\Coder-configurer.exe"
+#else
+    /* Linux-specific definitions */
+    #define HELLO_WORLD_EXE "./modules/HelloWorld/bin/debug/HelloWorld"
+    #define CODER_EXE "./modules/Coder/bin/debug/Coder"
+    #define DECODER_EXE "./modules/Decoder/bin/debug/Decoder"
+    #define CONFIGURER_EXE "./modules/Coder-configurer/bin/Debug/Coder-configurer"
+#endif
+
+
 
 
 #define CODED_DIR "./coded"
@@ -16,7 +26,7 @@ int main()
 {
 
     char command[100];
-    
+
     int option;
 
     while(option != 5){
