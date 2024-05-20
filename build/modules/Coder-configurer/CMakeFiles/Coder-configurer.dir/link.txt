@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/Coder-configurer.dir/main.c.o  -o Coder-configurer 

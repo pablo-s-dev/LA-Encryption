@@ -23,9 +23,8 @@
     #define makedir(dir) mkdir(dir, 0700)
 #endif
 
-
 char* read_line() {
-    int bufsize = 128;
+    long unsigned bufsize = 1024;
     int position = 0;
     char *buffer = malloc(sizeof(char) * bufsize);
     int c;
@@ -42,12 +41,12 @@ char* read_line() {
             buffer[position] = '\0';
             return buffer;
         } else {
-            buffer[position] = c;
+            buffer[position] = (char) c;
         }
         position++;
 
         if (position >= bufsize) {
-            bufsize += 128;
+            bufsize += 1024;
             buffer = realloc(buffer, bufsize);
             if (!buffer) {
                 fprintf(stderr, "read_line: allocation error\n");
@@ -56,7 +55,6 @@ char* read_line() {
         }
     }
 }
-
 void* load_matrix(char* dir, char* filename){
 
     int** matrix;
@@ -447,7 +445,7 @@ int main(int argc, char* argv[])
     decoded = decode_file(coded_text_path, output_dir, config_dir, decoded_filename);
 
     if(decoded != -1){
-        printf("\nThe file was decoded with success.\n\n");
+        printf("\nThe file was decoded with success in %s.\n\n", output_dir);
         return 0;
     }
 

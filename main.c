@@ -2,23 +2,23 @@
 #include <stdlib.h>
 
 #ifdef _WIN32
-    #define HELLO_WORLD_EXE ".\\modules\\HelloWorld\\bin\\debug\\HelloWorld.exe"
-    #define CODER_EXE ".\\modules\\Coder\\bin\\debug\\Coder.exe"
-    #define DECODER_EXE ".\\modules\\Decoder\\bin\\debug\\Decoder.exe"
-    #define CONFIGURER_EXE ".\\modules\\Coder-configurer\\bin\\Debug\\Coder-configurer.exe"
+    #define HELLO_WORLD_EXE ".\\modules\\HelloWorld\\HelloWorld.exe"
+    #define CODER_EXE ".\\modules\\Coder\\Coder.exe"
+    #define DECODER_EXE ".\\modules\\Decoder\\Decoder.exe"
+    #define CONFIGURER_EXE ".\\modules\\Coder-configurer\\Coder-configurer.exe"
+    #define CLEAR_COMMAND "cls"
 #else
-    #define HELLO_WORLD_EXE "./modules/HelloWorld/bin/debug/HelloWorld"
-    #define CODER_EXE "./modules/Coder/bin/debug/Coder"
-    #define DECODER_EXE "./modules/Decoder/bin/debug/Decoder"
-    #define CONFIGURER_EXE "./modules/Coder-configurer/bin/Debug/Coder-configurer"
+    #define HELLO_WORLD_EXE "./modules/HelloWorld/HelloWorld"
+    #define CODER_EXE "./modules/Coder/Coder"
+    #define DECODER_EXE "./modules/Decoder/Decoder"
+    #define CONFIGURER_EXE "./modules/Coder-configurer/Coder-configurer"
+    #define CLEAR_COMMAND "clear"
 #endif
 
 
-
-
-#define CODED_DIR "./coded"
-#define DECODED_DIR "./decoded"
-#define CONFIG_DIR "./config"
+#define CODED_DIR "../coded"
+#define DECODED_DIR "../decoded"
+#define CONFIG_DIR "../config"
 
 
 int main()
@@ -30,7 +30,7 @@ int main()
 
     while(option != 5){
 
-        system("cls");
+
 
         printf("Welcome to Linear Algebra Cipher!\n");
 
@@ -45,20 +45,22 @@ int main()
         fflush(stdin);
         scanf("%d", &option);
 
+        printf("\n");
+
         switch (option){
 
 
 
             case 1:
-                sprintf(command, "\"%s %s\" ", CONFIGURER_EXE, CONFIG_DIR);
+                sprintf(command, "%s \"%s\"", CONFIGURER_EXE, CONFIG_DIR);
                 system(command);
                 break;
             case 2:
-                sprintf(command, "\"%s %s %s\" ", CODER_EXE, CONFIG_DIR, CODED_DIR);
+                sprintf(command, "%s \"%s\" \"%s\"", CODER_EXE, CONFIG_DIR, CODED_DIR);
                 system(command);
                 break;
             case 3:
-                sprintf(command, "\"%s %s %s\" ", DECODER_EXE, CONFIG_DIR, DECODED_DIR);
+                sprintf(command, "%s \"%s\" \"%s\"", DECODER_EXE, CONFIG_DIR, DECODED_DIR);
                 system(command);
                 break;
             case 4:
@@ -68,8 +70,7 @@ int main()
                 printf("Invalid option!");
                 break;
         }
-
-        fflush(stdin);
+        getchar();
         printf("\nPress any key to continue\n");
         getchar();
 
